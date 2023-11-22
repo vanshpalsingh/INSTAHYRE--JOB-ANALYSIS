@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jobs for you</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <style>
+        body {
+            background: linear-gradient(135deg, #007bff, #60a8c1);
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        
+
+        .animation-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .line {
+            position: absolute;
+            background: #fff;
+            opacity: 0;
+            animation: moveLine 5s infinite;
+        }
+
+        .line:nth-child(1) {
+            width: 100px;
+            height: 2px;
+            top: 10%;
+            left: -100px;
+            animation-duration: 5s;
+        }
+
+        .line:nth-child(2) {
+            width: 100px;
+            height: 2px;
+            top: 50%;
+            left: -100px;
+            animation-duration: 3s;
+        }
+
+        .line:nth-child(3) {
+            width: 100px;
+            height: 2px;
+            top: 90%;
+            left: -100px;
+            animation-duration: 4s;
+        }
+
+        @keyframes moveLine {
+            0% {
+                transform: translateX(-100px);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        #container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        #heading {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 36px;
+        }
+
+        .searchSection {
+            background: #fff;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .searchTitle {
+            font-weight: bold;
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        #skillInput {
+            border: 2px solid #dfe7f0;
+            padding: 10px;
+            width: calc(100% - 20px);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #searchButton {
+            background: #007bff;
+            color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            padding: 12px 20px;
+            width: 30%;
+            cursor: not-allowed;
+        }
+
+        #searchButton:disabled {
+            cursor: not-allowed;
+        }
+
+        #searchResults {
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div id="container">
+        <h1 id="heading">Search Jobs <span class="emoji">🔍</span></h1>
+        <div class="searchSection">
+            <div class="searchTitle">Skills</div>
+            <form method="post" action="/result" onsubmit="searchSkills();">
+                <input type="text" id="skillInput" name="skill_query" placeholder="Enter skills" value="{{ skill_query }}">
+                <button type="submit" id="searchButton" disabled>Search</button>
+            </form>
+        </div>
+    </div>
+    <div id="searchResults">
+        <!-- Emojis -->
+    </div>
+    <script>
+        const skillInput = document.getElementById("skillInput");
+        const searchButton = document.getElementById("searchButton");
+
+        // Check if there's a search query in the URL and update the input field and button accordingly
+        const urlParams = new URLSearchParams(window.location.search);
+        const skillQueryParam = urlParams.get("skill_query");
+        if (skillQueryParam) {
+            skillInput.value = skillQueryParam;
+            searchButton.disabled = false;
+            searchButton.style.cursor = "pointer";
+        }
+
+        skillInput.addEventListener("input", function() {
+            if (skillInput.value) {
+                searchButton.disabled = false;
+                searchButton.style.cursor = "pointer";
+            } else {
+                searchButton.disabled = true;
+                searchButton.style.cursor = "not-allowed";
+            }
+        });
+
+        function searchSkills() {
+            const skill = skillInput.value;
+        }
+    </script>
+</body>
+</html>
